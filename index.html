@@ -302,6 +302,16 @@
         </div>
 
         <script>
+            // ── Hide shortcut bar on desktop ──
+            (function () {
+                const ua = navigator.userAgent;
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+                if (!isMobile) {
+                    document.querySelector('.shortcut-bar').style.display = 'none';
+                    document.body.style.paddingBottom = '0';
+                }
+            })();
+
             // ── LINE in-app browser detection ──
             (function () {
                 const ua = navigator.userAgent;
