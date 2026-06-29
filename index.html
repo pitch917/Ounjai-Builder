@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HTECHCLAIMS – Login</title>
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: #2c2c3e;
+                font-family: "Segoe UI", sans-serif;
+                padding-bottom: 80px;
+            }
+
+            /* ── Card ── */
+            .card {
+                background: #fff;
+                border-radius: 12px;
+                padding: 36px 32px 40px;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            }
+
+            .brand {
+                text-align: center;
+                font-size: 12px;
+                letter-spacing: 3px;
+                color: #888;
+                text-transform: uppercase;
+                margin-bottom: 6px;
+            }
+
+            .card h1 {
+                text-align: center;
+                font-size: 20px;
+                font-weight: 700;
+                color: #1a1a2e;
+                margin-bottom: 28px;
+            }
+
+            label {
+                display: block;
+                font-size: 13px;
+                color: #444;
+                margin-bottom: 6px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                border: 1.5px solid #d0d0d0;
+                border-radius: 6px;
+                padding: 10px 12px;
+                font-size: 15px;
+                outline: none;
+                transition: border-color 0.2s;
+                margin-bottom: 18px;
+            }
+
+            input:focus {
+                border-color: #1565c0;
+            }
+
+            .btn-login {
+                width: 100%;
+                background: #1565c0;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 13px;
+                font-size: 15px;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+            .btn-login:hover {
+                background: #0d47a1;
+            }
+            .btn-login:active {
+                background: #0a3880;
+            }
+
+            /* ── Bottom shortcut bar ── */
+            .shortcut-bar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                padding: 10px 16px;
+                background: transparent;
+            }
+
+            .btn-shortcut {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 24px;
+                font-size: 15px;
+                font-weight: 600;
+                color: #1a1a2e;
+                cursor: pointer;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+                transition:
+                    opacity 0.2s,
+                    transform 0.15s;
+                width: 90%;
+                max-width: 400px;
+                justify-content: center;
+            }
+
+            .btn-shortcut:hover {
+                opacity: 0.9;
+                transform: translateY(-1px);
+            }
+            .btn-shortcut:active {
+                transform: translateY(0);
+            }
+
+            /* pin icon */
+            .pin-icon {
+                width: 28px;
+                height: 28px;
+                background: #d32f2f;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .pin-icon svg {
+                width: 16px;
+                height: 16px;
+                fill: #fff;
+            }
+
+            /* arrow inside icon */
+            .arrow-icon {
+                color: #1565c0;
+                font-size: 20px;
+                line-height: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <p class="brand">อุ่นใจบิวเดอร์</p>
+            <h1>เข้าสู่ระบบ Dashboard</h1>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <label for="username">ชื่อผู้ใช้</label>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder=""
+                    autocomplete="username"
+                    required
+                />
+
+                <label for="password">รหัสผ่าน</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder=""
+                    autocomplete="current-password"
+                    required
+                />
+
+                <button type="submit" class="btn-login">เข้าสู่ระบบ</button>
+            </form>
+        </div>
+
+        <!-- Shortcut bar -->
+        <div class="shortcut-bar">
+            <button
+                class="btn-shortcut"
+                onclick="addShortcut()"
+                title="เพิ่มลงในหน้าจอหลัก"
+            >
+                <span class="pin-icon">
+                    <!-- bookmark/pin SVG -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"
+                        />
+                    </svg>
+                </span>
+                <span>เพิ่มลงในหน้าจอหลัก</span>
+                <span class="arrow-icon">&#8628;</span>
+            </button>
+        </div>
+
+        <script>
+            // ── Login handler ──
+            function handleLogin(e) {
+                e.preventDefault();
+                const username = document
+                    .getElementById("username")
+                    .value.trim();
+                const password = document.getElementById("password").value;
+                if (!username || !password) return;
+                // TODO: replace with real auth call
+                alert(`เข้าสู่ระบบสำเร็จ: ${username}`);
+            }
+
+            // ── PWA / shortcut install ──
+            let deferredPrompt = null;
+
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+
+            function addShortcut() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(() => {
+                        deferredPrompt = null;
+                    });
+                } else {
+                    // Fallback: guide for browsers that don't support PWA install
+                    const ua = navigator.userAgent;
+                    if (/iPhone|iPad|iPod/.test(ua)) {
+                        alert(
+                            'กดปุ่ม Share แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" เพื่อติดตั้ง',
+                        );
+                    } else if (/Android/.test(ua)) {
+                        alert(
+                            'กดเมนู ⋮ แล้วเลือก "เพิ่มในหน้าจอหลัก" เพื่อติดตั้ง',
+                        );
+                    } else {
+                        alert(
+                            "เปิดเว็บไซต์นี้บนมือถือแล้วกดปุ่มนี้เพื่อเพิ่มลัดหน้าจอ",
+                        );
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
