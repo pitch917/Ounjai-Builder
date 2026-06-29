@@ -161,6 +161,63 @@
                 font-size: 20px;
                 line-height: 1;
             }
+
+            /* ── Custom Modal ── */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                align-items: center;
+                justify-content: center;
+                z-index: 999;
+            }
+            .modal-overlay.show { display: flex; }
+
+            .modal {
+                background: #fff;
+                border-radius: 12px;
+                width: 85%;
+                max-width: 340px;
+                overflow: hidden;
+                box-shadow: 0 8px 32px rgba(0,0,0,.3);
+                animation: pop .18s ease;
+            }
+            @keyframes pop {
+                from { transform: scale(.88); opacity: 0; }
+                to   { transform: scale(1);   opacity: 1; }
+            }
+            .modal-header {
+                background: #1565c0;
+                color: #fff;
+                padding: 14px 18px;
+                font-size: 15px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .modal-body {
+                padding: 18px;
+                font-size: 14px;
+                color: #333;
+                line-height: 1.6;
+            }
+            .modal-footer {
+                padding: 10px 18px 16px;
+                display: flex;
+                justify-content: flex-end;
+            }
+            .modal-ok {
+                background: #1565c0;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 8px 24px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            .modal-ok:hover { background: #0d47a1; }
         </style>
     </head>
     <body>
@@ -191,6 +248,17 @@
             </form>
         </div>
 
+        <!-- Custom Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-header" id="modalTitle">อุ่นใจบิวเดอร์</div>
+                <div class="modal-body" id="modalMsg"></div>
+                <div class="modal-footer">
+                    <button class="modal-ok" onclick="closeModal()">ตกลง</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Shortcut bar -->
         <div class="shortcut-bar">
             <button
@@ -212,16 +280,26 @@
         </div>
 
         <script>
+            // ── Custom Modal ──
+            function showModal(title, msg) {
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalMsg').textContent = msg;
+                document.getElementById('modalOverlay').classList.add('show');
+            }
+            function closeModal() {
+                document.getElementById('modalOverlay').classList.remove('show');
+            }
+            document.getElementById('modalOverlay').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
             // ── Login handler ──
             function handleLogin(e) {
                 e.preventDefault();
-                const username = document
-                    .getElementById("username")
-                    .value.trim();
+                const username = document.getElementById("username").value.trim();
                 const password = document.getElementById("password").value;
                 if (!username || !password) return;
-                // TODO: replace with real auth call
-                alert(`เข้าสู่ระบบสำเร็จ: ${username}`);
+                showModal('อุ่นใจบิวเดอร์', `เข้าสู่ระบบสำเร็จ: ${username}`);
             }
 
             // ── Service Worker ──
@@ -240,24 +318,15 @@
             function addShortcut() {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then(() => {
-                        deferredPrompt = null;
-                    });
+                    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
                 } else {
-                    // Fallback: guide for browsers that don't support PWA install
                     const ua = navigator.userAgent;
                     if (/iPhone|iPad|iPod/.test(ua)) {
-                        alert(
-                            'กดปุ่ม Share แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" เพื่อติดตั้ง',
-                        );
+                        showModal('อุ่นใจบิวเดอร์', 'กดปุ่ม Share แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" เพื่อติดตั้ง');
                     } else if (/Android/.test(ua)) {
-                        alert(
-                            'กดเมนู ⋮ แล้วเลือก "เพิ่มในหน้าจอหลัก" เพื่อติดตั้ง',
-                        );
+                        showModal('อุ่นใจบิวเดอร์', 'กดเมนู ⋮ แล้วเลือก "เพิ่มในหน้าจอหลัก" เพื่อติดตั้ง');
                     } else {
-                        alert(
-                            "เปิดเว็บไซต์นี้บนมือถือแล้วกดปุ่มนี้เพื่อเพิ่มลัดหน้าจอ",
-                        );
+                        showModal('อุ่นใจบิวเดอร์', 'เปิดเว็บไซต์นี้บนมือถือแล้วกดปุ่มนี้เพื่อเพิ่มลัดหน้าจอ');
                     }
                 }
             }
