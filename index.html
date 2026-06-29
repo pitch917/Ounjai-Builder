@@ -162,23 +162,7 @@
                 line-height: 1;
             }
 
-            /* ── LINE banner ── */
-            .line-banner {
-                display: none;
-                position: fixed;
-                top: 0; left: 0; right: 0;
-                background: #06c755;
-                color: #fff;
-                padding: 12px 16px;
-                font-size: 13px;
-                line-height: 1.5;
-                z-index: 1000;
-                text-align: center;
-            }
-            .line-banner.show { display: block; }
-            .line-banner strong { display: block; font-size: 14px; margin-bottom: 2px; }
-
-            /* ── Custom Modal ── */
+/* ── Custom Modal ── */
             .modal-overlay {
                 display: none;
                 position: fixed;
@@ -264,13 +248,7 @@
             </form>
         </div>
 
-        <!-- LINE in-app browser banner -->
-        <div class="line-banner" id="lineBanner">
-            <strong>กรุณาเปิดในเบราว์เซอร์</strong>
-            <span id="lineBannerMsg"></span>
-        </div>
-
-        <!-- Custom Modal -->
+<!-- Custom Modal -->
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal">
                 <div class="modal-header" id="modalTitle">อุ่นใจบิวเดอร์</div>
@@ -312,19 +290,13 @@
                 }
             })();
 
-            // ── LINE in-app browser detection ──
+            // ── LINE in-app browser → force open external browser ──
             (function () {
                 const ua = navigator.userAgent;
                 if (/Line\//i.test(ua)) {
-                    const banner = document.getElementById('lineBanner');
-                    const msg = document.getElementById('lineBannerMsg');
-                    if (/iPhone|iPad|iPod/.test(ua)) {
-                        msg.textContent = 'กดปุ่ม "..." มุมขวาบน แล้วเลือก "เปิดใน Safari" เพื่อติดตั้งแอป';
-                    } else {
-                        msg.textContent = 'กดปุ่ม "..." มุมขวาบน แล้วเลือก "เปิดใน Chrome" เพื่อติดตั้งแอป';
-                    }
-                    banner.classList.add('show');
-                    document.body.style.paddingTop = banner.offsetHeight + 'px';
+                    const url = location.href;
+                    const sep = url.includes('?') ? '&' : '?';
+                    location.replace(url + sep + 'openExternalBrowser=1');
                 }
             })();
 
