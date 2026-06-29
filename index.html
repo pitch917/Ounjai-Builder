@@ -280,11 +280,12 @@
         </div>
 
         <script>
-            // ── Hide shortcut bar on desktop ──
+            // ── Hide shortcut bar on desktop or if already installed ──
             (function () {
                 const ua = navigator.userAgent;
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
-                if (!isMobile) {
+                const isInstalled = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+                if (!isMobile || isInstalled) {
                     document.querySelector('.shortcut-bar').style.display = 'none';
                     document.body.style.paddingBottom = '0';
                 }
