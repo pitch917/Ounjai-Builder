@@ -1,4 +1,4 @@
-const CACHE = "ounjai-v3";
+const CACHE = "ounjai-v4";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", (e) => {
