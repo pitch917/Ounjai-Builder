@@ -4,7 +4,7 @@
   "description": "เข้าสู่ระบบ Dashboard",
   "start_url": "./",
   "scope": "./",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#edf1f7",
   "theme_color": "#1565c0",
   "icons": [
