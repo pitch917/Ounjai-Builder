@@ -284,12 +284,20 @@
             (function () {
                 const ua = navigator.userAgent;
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
-                const isInstalled = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+                const isInstalled = localStorage.getItem('pwa_installed') === '1'
+                    || window.matchMedia('(display-mode: standalone)').matches
+                    || navigator.standalone === true;
                 if (!isMobile || isInstalled) {
                     document.querySelector('.shortcut-bar').style.display = 'none';
                     document.body.style.paddingBottom = '0';
                 }
             })();
+
+            window.addEventListener('appinstalled', () => {
+                localStorage.setItem('pwa_installed', '1');
+                document.querySelector('.shortcut-bar').style.display = 'none';
+                document.body.style.paddingBottom = '0';
+            });
 
             // ── LINE in-app browser → force open external browser ──
             (function () {
