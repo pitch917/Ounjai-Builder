@@ -4,6 +4,9 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>อุ่นใจบิวเดอร์ – Login</title>
+        <link rel="manifest" href="./manifest.json" />
+        <meta name="theme-color" content="#1565c0" />
+        <link rel="apple-touch-icon" href="./icon.svg" />
         <style>
             *,
             *::before,
@@ -219,6 +222,11 @@
                 if (!username || !password) return;
                 // TODO: replace with real auth call
                 alert(`เข้าสู่ระบบสำเร็จ: ${username}`);
+            }
+
+            // ── Service Worker ──
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js');
             }
 
             // ── PWA / shortcut install ──
