@@ -280,21 +280,19 @@
         </div>
 
         <script>
-            // ── Hide shortcut bar on desktop or if already installed ──
+            // ── Hide shortcut bar by default, show only when installable ──
             (function () {
                 const ua = navigator.userAgent;
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
-                const isInstalled = localStorage.getItem('pwa_installed') === '1'
-                    || window.matchMedia('(display-mode: standalone)').matches
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches
                     || navigator.standalone === true;
-                if (!isMobile || isInstalled) {
+                if (!isMobile || isStandalone) {
                     document.querySelector('.shortcut-bar').style.display = 'none';
                     document.body.style.paddingBottom = '0';
                 }
             })();
 
             window.addEventListener('appinstalled', () => {
-                localStorage.setItem('pwa_installed', '1');
                 document.querySelector('.shortcut-bar').style.display = 'none';
                 document.body.style.paddingBottom = '0';
             });
@@ -342,6 +340,8 @@
             window.addEventListener("beforeinstallprompt", (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
+                document.querySelector('.shortcut-bar').style.display = 'flex';
+                document.body.style.paddingBottom = '80px';
             });
 
             function addShortcut() {
